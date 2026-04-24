@@ -1,5 +1,7 @@
 {% extends "userpage.html" %}
 
+{% load django_bootstrap5 %}
+
 {% block title %} <title>Cadastro de Usuário</title> {% endblock %}
 
 {% block content %}
@@ -18,27 +20,29 @@
       <td colspan="2" align="right"> {{ errors }} </td>     
     </tr>
     <tr>
-      <td align="right"> {{ form.username.label_tag }} </td>
-      <td align="left">  {{ form.username }}  </td>
+      <td align="right"> {% bootstrap_label form.username.label_tag label_class="" %}</td>
+      <td align="left">  {% bootstrap_field form.username show_label=FALSE placeholder=FALSE %}  </td>
     </tr>    
     <tr>
-      <td align="right"> {{ form.password.label_tag }} </td>
-      <td align="left">  {{ form.password }}  </td>
+      <td align="right"> {% bootstrap_label form.password.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.password show_label=FALSE placeholder=FALSE %}  </td>
     </tr>    
     <tr>
-      <td align="right"> {{ form.email.label_tag }} </td>
-      <td align="left">  {{ form.email }}  </td>
+      <td align="right"> {% bootstrap_label form.email.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.email show_label=FALSE placeholder=FALSE %}  </td>
     </tr>
     <tr>
-      <td align="right"> {{ form.first_name.label_tag }} </td>
-      <td align="left">  {{ form.first_name }}  </td>
+      <td align="right"> {% bootstrap_label form.first_name.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.first_name show_label=FALSE placeholder=FALSE %}  </td>
     </tr>
     <tr>
-      <td align="right"> {{ form.last_name.label_tag }} </td>
-      <td align="left">  {{ form.last_name }}  </td>
+      <td align="right"> {% bootstrap_label form.last_name.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.last_name show_label=FALSE placeholder=FALSE %}  </td>
     </tr>
     <tr>
-      <td colspan="2" align="center"> <button class="btn btn-primary" type="submit">Salvar Alterações</button> </td>
+      <td colspan="2" align="center"> 
+        {% bootstrap_button "Salvar Alterações" button_type="submit" button_class="btn btn-primary" %} 
+      </td>
     </tr>
   </tbody>
   <tfoot class="table-group-divider">
