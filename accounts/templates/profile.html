@@ -1,0 +1,57 @@
+{% extends "userpage.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block title %} <title>Cadastro de Usuário</title> {% endblock %}
+
+{% block content %}
+
+<form method="post" action="{% url 'profile' %}">
+{% csrf_token %}
+<br><br><br><br>
+<table class="table table-light" style="width: 30%; margin-left: auto; margin-right: auto;">  
+  <thead class="table-light">
+    <tr>
+      <th colspan="2" align="center">Altere seus dados</th>
+    </tr>
+  </thead> 
+  <tbody  class="table-group-divider"> 
+    <tr>
+      <td colspan="2" align="right"> {{ errors }} </td>     
+    </tr>
+    <tr>
+      <td align="right"> {% bootstrap_label form.username.label_tag label_class="" %}</td>
+      <td align="left">  {% bootstrap_field form.username show_label=FALSE placeholder=FALSE %}  </td>
+    </tr>    
+    <tr>
+      <td align="right"> {% bootstrap_label form.password.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.password show_label=FALSE placeholder=FALSE %}  </td>
+    </tr>    
+    <tr>
+      <td align="right"> {% bootstrap_label form.email.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.email show_label=FALSE placeholder=FALSE %}  </td>
+    </tr>
+    <tr>
+      <td align="right"> {% bootstrap_label form.first_name.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.first_name show_label=FALSE placeholder=FALSE %}  </td>
+    </tr>
+    <tr>
+      <td align="right"> {% bootstrap_label form.last_name.label_tag label_class="" %} </td>
+      <td align="left">  {% bootstrap_field form.last_name show_label=FALSE placeholder=FALSE %}  </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center"> 
+        {% bootstrap_button "Salvar Alterações" button_type="submit" button_class="btn btn-primary" %} 
+      </td>
+    </tr>
+  </tbody>
+  <tfoot class="table-group-divider">
+    <tr>
+      <td align="right"> <a href="">[Alterar Senha]</a> </td>
+      <td align="right"> <a href="{% url 'logout' %}">[LogOut]</a> </td>
+    </tr>
+  </tfoot>
+</table>   
+</form>
+
+{% endblock %}
