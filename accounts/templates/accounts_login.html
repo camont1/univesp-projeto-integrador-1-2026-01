@@ -1,10 +1,4 @@
-{% extends "userpage.html" %}
-
 {% load django_bootstrap5 %}
-
-{% block title %} <title>Autenticação de Usuário</title> {% endblock %}
-
-{% block content %}
 
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
@@ -38,5 +32,3 @@
   </tfoot>
 </table>   
 </form>
-
-{% endblock %}

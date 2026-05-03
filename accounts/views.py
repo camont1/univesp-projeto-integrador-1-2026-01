@@ -24,12 +24,24 @@ def profile(request):
             # Retorna o dicionário dos erros de validação do formulário, caso existam. 
             # Se o dicionário estiver vazio, significa que o formulário é válido.
             errors = form.errors.as_data()
-            return render(request, 'profile.html', {'form': form, 'errors': errors})
+
+            # criando um dicionário com os templates que serão incluídos no userpage.html.
+            templates = {
+                'content': 'accounts_profile.html',
+            }
+
+            return render(request, 'frontend_userpage.html', {'form': form, 'errors': errors, 'templates': templates})
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = ProfileForm(User.objects.get(username=request.user.username).__dict__)        
-        return render(request, "profile.html", {"form": form})
+        form = ProfileForm(User.objects.get(username=request.user.username).__dict__)    
+
+        # criando um dicionário com os templates que serão incluídos no userpage.html.
+        templates = {
+            'content': 'accounts_profile.html',
+        }        
+
+        return render(request, "frontend_userpage.html", {"form": form, "templates": templates})
 
 def new_user(request):
     # if this is a POST request we need to process the form data
@@ -40,23 +52,34 @@ def new_user(request):
         # check whether it's valid:
         if form.is_valid():            
 
-                #process the data in form.cleaned_data as required
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
-                email = form.cleaned_data['email']
+            #process the data in form.cleaned_data as required
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
 
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.first_name = form.cleaned_data['first_name']
-                user.last_name = form.cleaned_data['last_name']
-                user.save()
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()                      
 
-                login(request, user)            
-                return redirect('userpage')
+            # criando um dicionário com os templates que serão incluídos no userpage.html.
+            templates = {
+                'content': 'accounts_login.html',
+            }
+
+            return render(request, 'frontend_userpage.html', {'form': form, 'templates': templates})
+                
         else:
             # Retorna o dicionário dos erros de validação do formulário, caso existam. 
             # Se o dicionário estiver vazio, significa que o formulário é válido.
             errors = form.errors.as_data()
-            return render(request, 'profile.html', {'form': form, 'error': errors})
+
+            # criando um dicionário com os templates que serão incluídos no userpage.html.
+            templates = {
+                'content': 'accounts_register.html',
+            }
+
+            return render(request, 'frontend_userpage.html', {'form': form, 'templates': templates, 'errors': errors})
         
     else:
         if request.user.is_authenticated:
@@ -64,7 +87,13 @@ def new_user(request):
         else:
             # if a GET (or any other method) we'll create a blank form
             form = ProfileForm()
-            return render(request, 'register.html', {'form': form})
+
+            # criando um dicionário com os templates que serão incluídos no userpage.html.
+            templates = {
+                'content': 'accounts_register.html',
+            }
+
+            return render(request, 'frontend_userpage.html', {'form': form, 'templates': templates})
     
 def login_view(request):
     if request.method == "POST":
@@ -76,15 +105,25 @@ def login_view(request):
             return redirect('userpage')
         else:
             form = ProfileForm()
-            return render(request, 'login.html', {'error': 'Invalid username or password', 'form': form})
+            # criando um dicionário com os templates que serão incluídos no userpage.html.
+            templates = {
+                'content': 'accounts_login.html',
+            }
+            return render(request, 'frontend_userpage.html', {'form': form, 'templates': templates, 'error': 'Invalid username or password'})
     else:
         if request.user.is_authenticated:
             return redirect('userpage')
         else:
             form = ProfileForm()
-            return render(request, 'login.html', {'form': form})
+
+            # criando um dicionário com os templates que serão incluídos no userpage.html.
+            templates = {
+                'content': 'accounts_login.html',
+            }
+
+            return render(request, 'frontend_userpage.html', {'form': form, 'templates': templates})
 
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)       
-    return redirect('home')
+    return redirect('homepage')

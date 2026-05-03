@@ -24,7 +24,7 @@ class ProfileForm(forms.Form):
             if len(password) < 6:
                 raise forms.ValidationError("Password must be at least 6 characters long.")
             return password
-    def clean_email(self):            
+    def clean_email(self):       
             email = self.cleaned_data['email']
             if email.endswith('@example.com'):
                raise forms.ValidationError("Email must not be from the domain @example.com.")
