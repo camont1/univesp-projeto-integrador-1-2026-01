@@ -57,10 +57,8 @@ Ainda na app 'frontend' foi adicionado um processador de variáveis globais (con
 1. as views chamam os templates de layout a partir do método 'render()'; 
 ex:
 
-    def test(request):    
-
+    def test(request):   
         # lógica da view
-
         return render(request, 'frontend_testpage.html') 
 
 2. os templates de apps são retornados pela função 'frontend_context()';
@@ -69,7 +67,9 @@ ex:
     else:
         frontend = {
             'TEMPLATES': {
-                'CONTENT': 'frontend_basedefault.html',
+                'CONTENT': 'app1_index.html',
+                'SIDE': 'app2_menu.html',
+                'TOP': 'app3_toggle.html',
             }
         }
 
@@ -77,6 +77,10 @@ ex:
 
 3. o template de layout renderizados na view exibe os templates de apps definidos a partir da TAG 'include';
 ex:
+
+    <center> {% include TEMPLATES.TOP %}  </center>
+
+    <center> {% include TEMPLATES.SIDE%}  </center>
 
     <center> {% include TEMPLATES.CONTENT %}  </center>
 
