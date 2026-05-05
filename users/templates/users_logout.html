@@ -1,0 +1,38 @@
+{% load django_bootstrap5 %}
+
+<div class="container-sm" style="max-width: 750px;">
+  <table class="table table-light" style="width: 100%; margin-left: auto; margin-right: auto;">
+  <form class="form-control" method="post" action="/accounts/logout/" id="login-form">
+        {% csrf_token %}   
+      <thead class="table-light">
+        <tr>
+          <th align="center">Tem certeza de que deseja sair?</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr>
+          <td align="center"> <br> {% bootstrap_button button_type="submit" content="Sair" %} <br><br> </td>
+        </tr>         
+    </form>
+    </table>
+  </div> 
+
+{% if errors %}
+<div class="container-sm" style="max-width: 750px;">
+  <div class="row justify-content-md-center" style="margin-top: 10px;">
+    <div class="col align-self-center">{{ errors }}</div>
+  </div>
+</div>
+{% endif %}
+
+<div class="container-sm" style="max-width: 750px; margin-top: 10px;">
+  <div class="row justify-content-md-center" style="margin-bottom: 5px;">
+    <div class="col align-self-center"><a href="/accounts/password/change/">[Alterar Senha]</a></div>
+    <div class="col align-self-center"><a href="/accounts/email/">[Alterar Email]</a></div>
+    <div class="col align-self-center"><a href="/accounts/3rdparty/"> [Redes Sociais] </a></div>
+    <div class="col align-self-center"><a href="/accounts/sessions/">[Sessões]</a></div>
+    <div class="col align-self-center"><a href="/accounts/logout/">[LogOut]</a></div>
+  </div>
+</div>
+
+

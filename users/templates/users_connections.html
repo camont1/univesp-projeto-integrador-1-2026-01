@@ -1,0 +1,39 @@
+{% load allauth %}
+
+<h1> Conexões de conta </h1>
+
+{% if form.accounts %}
+
+    <p> Você pode entrar na sua conta usando qualquer uma das seguintes contas de terceiros: </p>
+
+
+    <form method="post" action="{% url socialaccount_connections %}">
+        {% csrf_token %}
+        {% for acc in form.fields.account.choices %}
+            {% with account=acc.0.instance.get_provider_account %}
+
+
+            {% endwith %}
+        {% endfor %}     
+        
+        <button type="submit" class="btn btn-danger"> Remover </button>
+    </form>
+
+{% else %}
+
+    <p> Atualmente, você não tem contas de terceiros conectadas a esta conta. </p>
+
+{% endif %}
+
+<h2> Adicionar uma conta de terceiros  </h2>
+
+{% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+{% include "socialaccount/snippets/login_extra.html" %}
+
+<div class="mb-3"> 
+    <a href="/accounts/email/"> [Alterar e-mail] </a>
+    <a href="/accounts/password/change/"> [Alterar Senha] </a>  
+    <a href="/accounts/3rdparty/"> [Conexões de Conta] </a>
+    <a href="/accounts/sessions/"> [Sessões] </a>
+    <a href="/accounts/logout"> [LogOut] </a> 
+</div>

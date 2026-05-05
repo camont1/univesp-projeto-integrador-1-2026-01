@@ -1,0 +1,52 @@
+{% load django_bootstrap5 %}
+
+<div class="container-sm" style="max-width: 500px;">
+  <table class="table table-light" style="width: 100%; margin-left: auto; margin-right: auto;"> 
+  <form  class="form-control" method="post" action="/accounts/signup/">
+    {% csrf_token %}   
+    <thead class="table-light">
+      <tr>
+        <th colspan="2" align="center">Cadastre uma nova conta: </th>
+      </tr>
+    </thead>
+    <tbody  class="table-group-divider">
+      <tr>
+        <td align="right" vertical-align="middle"> {% bootstrap_label "Usuário:" %} </td>
+        <td align="left" vertical-align="middle"> {% bootstrap_field form.username show_label=False placeholder=False %} </td>
+      </tr>
+      <tr>
+        <td align="right" vertical-align="middle"> {% bootstrap_label "Senha:" %} </td>
+        <td align="left" vertical-align="middle"> {% bootstrap_field form.password1 show_label=False placeholder=False %} </td>
+      </tr>
+      <tr>
+        <td align="right" vertical-align="middle"> {% bootstrap_label "Confirme a senha:" %} </td>
+        <td align="left" vertical-align="middle"> {% bootstrap_field form.password2 show_label=False placeholder=False %} </td>
+      </tr>
+      <tr>
+        <td align="right" vertical-align="middle"> {% bootstrap_label "Email:" %} </td>
+        <td align="left" vertical-align="middle"> {% bootstrap_field form.email show_label=False placeholder=False %} </td>
+      </tr>
+         <td colspan="2" align="center" vertical-align="middle"> 
+          {% bootstrap_button button_type="submit" content="Criar Conta" %}
+        </td>
+      </tr>     
+    </tbody>  
+  </form>
+  </table> 
+</div>
+
+  {% if errors %}
+    <div class="container-sm" style="max-width: 600px;">
+      <div class="row  justify-content-md-center" style="margin-bottom: 5px;">
+        <div class="col align-self-center" style="margin-bottom: 5px;"> {{ errors }} </div> 
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="container-sm" style="max-width: 600px;">
+    <div class="row  justify-content-md-center" style="margin-bottom: 5px;">
+      <div class="col align-self-center" style="margin-bottom: 5px;"> <a href="/accounts/password/reset/">[Nova Senha]</a> </div>
+      <div class="col align-self-center" style="margin-bottom: 5px;"> <a href="/accounts/signup/">[Nova Conta]</a> </div>
+      <div class="col align-self-center" style="margin-bottom: 5px;"> <a href="/accounts/login/">[LogIn]</a> </div> 
+    </div>  
+  </div>
