@@ -30,10 +30,20 @@
 {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
 {% include "socialaccount/snippets/login_extra.html" %}
 
-<div class="mb-3"> 
-    <a href="/accounts/email/"> [Alterar e-mail] </a>
-    <a href="/accounts/password/change/"> [Alterar Senha] </a>  
-    <a href="/accounts/3rdparty/"> [Conexões de Conta] </a>
-    <a href="/accounts/sessions/"> [Sessões] </a>
-    <a href="/accounts/logout"> [LogOut] </a> 
+{% if errors %}
+<div class="container-sm" style="max-width: 750px;">
+  <div class="row justify-content-md-center" style="margin-top: 10px;">
+    <div class="col align-self-center">{{ errors }}</div>
+  </div>
+</div>
+{% endif %}
+
+<div class="container-sm" style="max-width: 750px; margin-top: 10px;">
+  <div class="row justify-content-md-center" style="margin-bottom: 5px;">
+    <div class="col align-self-center"><a href="/accounts/password/change/">[Alterar Senha]</a></div>
+    <div class="col align-self-center"><a href="/accounts/email/">[Alterar Email]</a></div>
+    <div class="col align-self-center"><a href="/accounts/3rdparty/"> [Redes Sociais] </a></div>
+    <div class="col align-self-center"><a href="/accounts/sessions/">[Sessões]</a></div>
+    <div class="col align-self-center"><a href="/accounts/logout/">[LogOut]</a></div>
+  </div>
 </div>
