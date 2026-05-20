@@ -1,104 +1,255 @@
-# univesp-projeto-integrador-1-2026-01
-Repositório dedicado ao desenvolvimento do projeto da disciplina do Projeto Integrador 1 da UNIVESP
+# Django + UV
 
-## Acesso provisório do SuperUsuário:
-username = PI01
-senha = 20260103
+Projeto Django utilizando:
 
-## Instalação das Dependências (Ambiente Virtual)
-O estado atual do repositório está configurado com o Python 3.12, portanto, prefira usar esta versão para evitar problemas de compatibilidade. 
+- Python
+- Django
+- UV
+- Estrutura `src/`
 
-Porém, já realisei testes da aplicação em outro ambiente com o Phyton 3.14 e funcionou sem nenhum problema.
+---
 
-### DJANGO (versão 6.0.4):
+# Requisitos
 
-    uv pip install django
+Antes de começar instale:
 
-## Outras dependências
+- Git
+- Python 3.12+
+- UV
 
-### Blibliotecas do Python : 
+---
 
-    uv pip install requests
+# Instalar Python
 
-### Plugns do Django:
+Download oficial:
 
-    uv pip install django-bootstrap5  django-allauth "django-allauth[socialaccount]" "django-allauth[headless]"
+- https://www.python.org/downloads/
 
-Documentação dos recursos utilizados. Consulte caso tenha alguma dúvida:
+Verifique instalação:
 
-https://docs.astral.sh/uv/
+```bash
+python --version
+```
 
-https://django-bootstrap5.readthedocs.io/en/latest/
+ou:
 
-https://docs.allauth.org/en/latest/index.html
+```bash
+python3 --version
+```
 
-https://requests.readthedocs.io/en/latest/
+---
 
+# Instalar UV
 
-## Informações sobre a aplicação:
+Documentação oficial:
 
-Conforme definido no escopo do projeto (que será utlizado o django templates para a construção do frontend), foi adicionado o bootstrap5 para utlização dos estilos padrão.
+- https://docs.astral.sh/uv/
 
-Com o mesmo objetivo, também foi adicionado um pack de icones na pasta /static.
+---
 
-Para cumprir com os requisitos da Etapa 1 do projeto, foi adicionado plugin allauth do django, para dar melhores recursos de autenticação de usuários. 
+## Linux/macOS
 
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-### Estrutura do projeto:
+---
 
-Além da app do projeto, nomeada 'core', foram criados duas outras app's com os seguintes objetivos:
+## Windows (PowerShell)
 
-#### 'frontend' 
+```powershell id="k6t91d"
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
 
-Converge os templates de layout das páginas (frontend_homecontent.html e frontend_usercontent.html), além da página base (frontend_base.html) que define o HEAD e demais elementos fixos e comuns para as páginas de layouts. 
+---
 
-Ainda na app 'frontend' foi adicionado um processador de variáveis globais (context_processors.py) com o objetivo de definir os templates de aplicação que são incluídos nas páginas de layout a partir da TAG 'include'. Esta foi a solução encontrada para permitir a integração do allauth sem modificar as suas views. Portanto, o fluxo de desenvolviento proposto é: 
+# Clonar o projeto
 
-1. as views chamam os templates de layout a partir do método 'render()'; 
-ex:
+```bash
+git clone URL_DO_REPOSITORIO
+```
 
-    def test(request):   
-        # lógica da view
-        return render(request, 'frontend_testpage.html') 
+Entrar na pasta:
 
-2. os templates de apps são retornados pela função 'frontend_context()';
-ex:
+```bash
+cd NOME_DO_PROJETO
+```
 
-    else:
-        frontend = {
-            'TEMPLATES': {
-                'CONTENT': 'app1_index.html',
-                'SIDE': 'app2_menu.html',
-                'TOP': 'app3_toggle.html',
-            }
-        }
+---
 
-    return frontend  
+# Estrutura do projeto
 
-3. o template de layout renderizados na view exibe os templates de apps definidos a partir da TAG 'include';
-ex:
+```text
+projeto/
+├── src/
+│   ├── apps/
+│   ├── config/
+│   ├── templates/
+│   └── static/
+│
+├── manage.py
+├── pyproject.toml
+├── uv.lock
+└── .gitignore
+```
 
-    <center> {% include TEMPLATES.TOP %}  </center>
+---
 
-    <center> {% include TEMPLATES.SIDE%}  </center>
+# Criar ambiente virtual
 
-    <center> {% include TEMPLATES.CONTENT %}  </center>
+```bash
+uv venv
+```
 
+Isso cria:
 
-#### 'users'
+```text
+.venv/
+```
 
-Responsável por integrar as funcionalidade do 'allauth', contendo os templantes de substituição as views necessárias que não são definidas por padrão pelo allauth. 
+---
 
-ATENÇÃO: devido à solução de integração do allauth desenvolvida, verificou-se uma incompatibildiade do uso do decorator '@loguin_required', pois o seu redirecionamento não atualiza as variáveis definidas pela função 'frontend_context()'. Felizmente, a solução é simples, bastando utilizar no lugar o método redirect.
-ex:
+# Ativar ambiente virtual
 
-    # @login_required # não utilizar
-    def profile(request):
+## Linux/macOS
 
-        if not request.user.is_authenticated:
-            return redirect('account_login')  # use este controle no lugar.
+```bash
+source .venv/bin/activate
+```
 
+---
 
-### Estrutura de templates:
+## Windows
 
-Com o objetivo de facilitar o desenvolviemnto do frontend da aplicação optou-se por utilizar a menor quantidade de TAGS possível nos templates, possibilitando que as páginas possam ser criadas e editadas com o uso de qualquer editor HTML.
+```powershell id="2icowd"
+.venv\Scripts\activate
+```
+
+---
+
+# Instalar dependências
+
+```bash
+uv sync
+```
+
+O UV irá instalar automaticamente todas as dependências do projeto usando:
+
+```text
+pyproject.toml
+uv.lock
+```
+
+---
+
+# Rodar migrations
+
+```bash
+uv run manage.py migrate
+```
+
+---
+
+# Executar servidor Django
+
+```bash
+uv run manage.py runserver
+```
+
+---
+
+# Abrir projeto
+
+Acesse:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+# Criar super usuário
+
+```bash
+uv run manage.py createsuperuser
+```
+
+Painel admin:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
+---
+
+# Comandos úteis
+
+## Rodar servidor
+
+```bash
+uv run manage.py runserver
+```
+
+---
+
+## Criar migrations
+
+```bash
+uv run manage.py makemigrations
+```
+
+---
+
+## Aplicar migrations
+
+```bash
+uv run manage.py migrate
+```
+
+---
+
+## Criar app
+
+```bash
+uv run manage.py startapp nome_app
+```
+
+---
+
+# Estrutura Recomendada
+
+```text
+src/
+├── apps/
+├── config/
+├── templates/
+└── static/
+```
+
+---
+
+# Git Ignore
+
+O projeto já possui `.gitignore` configurado para ignorar:
+
+- ambiente virtual
+- cache Python
+- variáveis de ambiente
+- SQLite
+- arquivos temporários
+
+---
+
+# Tecnologias
+
+- Python
+- Django
+- UV
+
+---
+
+# Links úteis
+
+- Django: https://www.djangoproject.com/
+- Django Docs: https://docs.djangoproject.com/
+- UV Docs: https://docs.astral.sh/uv/

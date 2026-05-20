@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937
+                );
+
+            min-height: 100vh;
+
+            color: white;
+
+            padding: 40px 24px;
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+        }
+
+        .topbar {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 40px;
+        }
+
+        .logo {
+
+            width: 70px;
+            height: 70px;
+
+            background: white;
+
+            color: #111827;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            font-size: 28px;
+            font-weight: bold;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .user-area {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .user {
+
+            background: rgba(255,255,255,0.1);
+
+            padding: 12px 18px;
+
+            border-radius: 12px;
+
+            backdrop-filter: blur(10px);
+
+            font-size: 14px;
+        }
+
+        .logout-btn {
+
+            padding: 12px 18px;
+
+            background: #dc2626;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+
+            background: #b91c1c;
+        }
+
+        .hero {
+
+            margin-bottom: 32px;
+        }
+
+        .hero h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+
+            color: #d1d5db;
+
+            line-height: 1.7;
+
+            max-width: 800px;
+
+            font-size: 16px;
+        }
+
+        .card {
+
+            background: white;
+
+            color: #111827;
+
+            border-radius: 20px;
+
+            padding: 32px;
+
+            margin-bottom: 32px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+
+            font-size: 28px;
+
+            margin-bottom: 12px;
+        }
+
+        .card p {
+
+            color: #4b5563;
+
+            line-height: 1.7;
+
+            margin-bottom: 24px;
+        }
+
+        .search-form {
+
+            display: flex;
+
+            gap: 14px;
+
+            margin-top: 24px;
+        }
+
+        .search-form input {
+
+            flex: 1;
+
+            padding: 16px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .search-form input:focus {
+
+            outline: none;
+
+            border-color: #111827;
+
+            box-shadow:
+                0 0 0 4px rgba(17,24,39,0.1);
+        }
+
+        .search-form button {
+
+            padding: 16px 24px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #111827;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .search-form button:hover {
+
+            background: #374151;
+        }
+
+        .results {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 24px;
+        }
+
+        .protein-card {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.15);
+
+            transition: 0.2s;
+        }
+
+        .protein-card:hover {
+
+            transform: translateY(-4px);
+        }
+
+        .protein-card h3 {
+
+            color: #111827;
+
+            font-size: 24px;
+
+            margin-bottom: 12px;
+        }
+
+        .protein-card p {
+
+            color: #6b7280;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+        }
+
+        .actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+        .actions a {
+
+            flex: 1;
+
+            text-align: center;
+
+            padding: 12px 16px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .btn-view {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .btn-view:hover {
+
+            background: #1d4ed8;
+        }
+
+        .btn-download {
+
+            background: #111827;
+
+            color: white;
+        }
+
+        .btn-download:hover {
+
+            background: #374151;
+        }
+
+        .empty {
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.1);
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            color: #d1d5db;
+
+            backdrop-filter: blur(10px);
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topbar">
+
+        <div class="logo">
+            🧬
+        </div>
+
+        <div class="user-area">
+
+            <div class="user">
+
+                Olá,
+                {{ request.user.first_name }}
+
+            </div>
+
+            <a
+                href="/users/logout/"
+                class="logout-btn"
+            >
+                Sair
+            </a>
+
+        </div>
+
+    </div>
+
+    <section class="hero">
+
+        <h1>
+            🔎 Busca de Proteínas
+        </h1>
+
+        <p>
+            Dashboard integrado ao
+            RCSB Protein Data Bank.
+            Pesquise proteínas, estruturas moleculares
+            e exporte arquivos PDB diretamente da API oficial.
+        </p>
+
+    </section>
+
+    <div class="card">
+
+        <h2>
+            Buscar Proteínas
+        </h2>
+
+        <p>
+            Digite o nome de uma proteína para consultar
+            estruturas disponíveis no banco RCSB.
+        </p>
+
+        <form
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Digite o nome da proteína..."
+                value="{{ query }}"
+            >
+
+            <button type="submit">
+                Buscar
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if proteins %}
+
+        <div class="results">
+
+            {% for protein in proteins %}
+
+                <div class="protein-card">
+
+                    <h3>
+                        {{ protein.title }}
+                    </h3>
+
+                    <p>
+                        {{ protein.description }}
+                    </p>
+
+                    <div class="actions">
+
+                        <a
+                            href="{{ protein.view_url }}"
+                            target="_blank"
+                            class="btn-view"
+                        >
+                            Abrir proteína
+                        </a>
+
+                        <a
+                            href="/export/{{ protein.id }}/"
+                            class="btn-download"
+                        >
+                            Exportar PDB
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            Nenhuma proteína pesquisada ainda.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

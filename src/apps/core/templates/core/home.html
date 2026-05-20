@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Home</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937
+                );
+
+            min-height: 100vh;
+
+            color: white;
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 40px 24px;
+        }
+
+        header {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 80px;
+        }
+
+        .logo {
+
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .buttons {
+
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .btn-login {
+
+            background: white;
+            color: #111827;
+        }
+
+        .btn-register {
+
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .hero {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            text-align: center;
+
+            margin-top: 100px;
+        }
+
+        .hero h1 {
+
+            font-size: 56px;
+
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+
+            max-width: 700px;
+
+            line-height: 1.7;
+
+            font-size: 18px;
+
+            color: #d1d5db;
+
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+
+            display: flex;
+            gap: 16px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="logo">
+            Projeto Integrador 1 Univesp
+        </div>
+
+        <div class="buttons">
+
+            <a
+                href="/login/"
+                class="btn btn-login"
+            >
+                Entrar
+            </a>
+
+            <a
+                href="/users/"
+                class="btn btn-register"
+            >
+                Criar Conta
+            </a>
+
+        </div>
+
+    </header>
+
+    <section class="hero">
+
+        <h1>
+            Busca de Proteínas
+        </h1>
+
+        <p>
+            Interface Web para Busca de Similaridade Bioestrutural de Proteínas
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="/users/"
+                class="btn btn-register"
+            >
+                Começar Agora
+            </a>
+
+            <a
+                href="/login/"
+                class="btn btn-login"
+            >
+                Entrar
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>
