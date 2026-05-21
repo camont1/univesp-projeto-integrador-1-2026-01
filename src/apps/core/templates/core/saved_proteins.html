@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title> Histórico de Busca </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1f2937
+                );
+
+            min-height: 100vh;
+
+            padding: 40px 24px;
+
+            color: white;
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+        }
+
+        .toast-container {
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 9999;
+        }
+
+        .toast {
+
+            min-width: 320px;
+
+            padding: 18px 28px;
+
+            border-radius: 16px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+
+            animation:
+                fadeIn 0.3s ease;
+        }
+
+        .success {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            border: 1px solid #86efac;
+        }
+
+        .error {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+            border: 1px solid #fca5a5;
+        }
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+        .topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 40px;
+        }
+
+        .title {
+
+            font-size: 36px;
+        }
+
+        .actions-top {
+
+            display: flex;
+
+            gap: 12px;
+        }
+
+        .back-btn {
+
+            padding: 12px 18px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+        .logout-btn {
+
+            padding: 12px 18px;
+
+            background: #dc2626;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+        .search-box {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            margin-bottom: 32px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .search-box h2 {
+
+            color: #111827;
+
+            margin-bottom: 18px;
+        }
+
+        .search-form {
+
+            display: flex;
+
+            gap: 12px;
+        }
+
+        .search-form input {
+
+            flex: 1;
+
+            padding: 16px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 12px;
+        }
+
+        .search-form button {
+
+            padding: 16px 24px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #111827;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(380px, 1fr));
+
+            gap: 24px;
+        }
+
+        .card {
+
+            background: white;
+
+            color: #111827;
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .badge {
+
+            display: inline-block;
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            padding: 6px 12px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+        .protein-name {
+
+            font-size: 22px;
+
+            margin-bottom: 18px;
+
+            line-height: 1.5;
+        }
+
+        .card p {
+
+            margin-bottom: 14px;
+
+            line-height: 1.7;
+
+            color: #4b5563;
+        }
+
+        .status {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .saved {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .not-saved {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+        .actions {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+
+            flex: 1;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            padding: 12px 16px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .btn-view {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .btn-description {
+
+            background: #059669;
+
+            color: white;
+        }
+
+        .btn-export {
+
+            background: #111827;
+
+            color: white;
+        }
+
+        .details {
+
+            margin-top: 20px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e5e7eb;
+
+            display: none;
+        }
+
+        .details p {
+
+            margin-bottom: 10px;
+        }
+
+        .empty {
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.1);
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            color: #d1d5db;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    {% if messages %}
+
+        <div class="toast-container">
+
+            {% for message in messages %}
+
+                <div class="toast {{ message.tags }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    <div class="topbar">
+
+        <h1 class="title">
+
+            🧬 Histórico de Buscas
+
+        </h1>
+
+        <div class="actions-top">
+
+            <a
+                href="/dashboard/"
+                class="back-btn"
+            >
+                Voltar
+            </a>
+
+            <a
+                href="/users/logout/"
+                class="logout-btn"
+            >
+                Sair
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="search-box">
+
+        <h2>
+            Buscar Proteína Salva
+        </h2>
+
+        <form
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Buscar por proteína, descrição ou texto pesquisado..."
+                value="{{ query }}"
+            >
+
+            <button type="submit">
+                Filtrar
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if proteins %}
+
+        <div class="grid">
+
+            {% for protein in proteins %}
+
+                <div class="card">
+
+                    <div class="badge">
+
+                        {{ protein.protein_id }}
+
+                    </div>
+
+                    <h2
+                        class="protein-name"
+                        id="title-{{ protein.protein_id }}"
+                    >
+
+                        {% if protein.details %}
+
+                            {{ protein.details.full_title }}
+
+                        {% else %}
+
+                            {{ protein.title }}
+
+                        {% endif %}
+
+                    </h2>
+
+                    <p>
+
+                        <strong>
+                            Texto buscado:
+                        </strong>
+
+                        {{ protein.search.query }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            PDB salvo:
+                        </strong>
+
+                        {% if protein.pdb_file %}
+
+                            <span class="status saved">
+
+                                Sim
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="status not-saved">
+
+                                Não
+
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            Salvo em:
+                        </strong>
+
+                        {{ protein.created_at }}
+
+                    </p>
+
+                    <div class="actions">
+
+                        <a
+                            href="{{ protein.view_url }}"
+                            target="_blank"
+                            class="btn btn-view"
+                        >
+                            Abrir
+                        </a>
+
+                        <button
+                            type="button"
+                            class="btn btn-description"
+                            onclick="loadDetails('{{ protein.protein_id }}')"
+                        >
+                            Descrição
+                        </button>
+
+                        <a
+                            href="/export/{{ protein.protein_id }}/"
+                            class="btn btn-export"
+                        >
+                            Exportar PDB
+                        </a>
+
+                    </div>
+
+                    <div
+                        class="details"
+                        id="details-{{ protein.protein_id }}"
+                    >
+
+                        Carregando...
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            Nenhuma proteína salva encontrada.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+
+async function loadDetails(proteinId) {
+
+    const detailsDiv = document.getElementById(
+        `details-${proteinId}`
+    )
+
+    const titleDiv = document.getElementById(
+        `title-${proteinId}`
+    )
+
+    if (
+        detailsDiv.style.display === "block"
+    ) {
+
+        detailsDiv.style.display = "none"
+
+        return
+    }
+
+    detailsDiv.style.display = "block"
+
+    detailsDiv.innerHTML = "Carregando..."
+
+    const response = await fetch(
+        `/protein-details/${proteinId}/`
+    )
+
+    const data = await response.json()
+
+    titleDiv.innerHTML = data.title
+
+    detailsDiv.innerHTML = `
+
+        <p>
+            <strong>Descrição:</strong>
+            ${data.title}
+        </p>
+
+        <p>
+            <strong>Classificação:</strong>
+            ${data.classification}
+        </p>
+
+        <p>
+            <strong>Organismo:</strong>
+            ${data.organism}
+        </p>
+
+        <p>
+            <strong>Sistema de Expressão:</strong>
+            ${data.expression_system}
+        </p>
+
+    `
+}
+
+setTimeout(() => {
+
+    const toast = document.querySelector(
+        ".toast-container"
+    )
+
+    if (toast) {
+
+        toast.style.transition =
+            "opacity 0.5s ease"
+
+        toast.style.opacity = "0"
+
+        setTimeout(() => {
+
+            toast.remove()
+
+        }, 500)
+
+    }
+
+}, 2000)
+
+</script>
+
+</body>
+</html>
