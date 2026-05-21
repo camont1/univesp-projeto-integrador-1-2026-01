@@ -44,6 +44,75 @@
             margin: 0 auto;
         }
 
+        .toast-container {
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 9999;
+        }
+
+        .toast {
+
+            min-width: 320px;
+
+            padding: 18px 28px;
+
+            border-radius: 16px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+
+            animation:
+                fadeIn 0.3s ease;
+        }
+
+        .success {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            border: 1px solid #86efac;
+        }
+
+        .error {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+            border: 1px solid #fca5a5;
+        }
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
         .topbar {
 
             display: flex;
@@ -95,6 +164,30 @@
             backdrop-filter: blur(10px);
 
             font-size: 14px;
+        }
+
+        .saved-btn {
+
+            padding: 12px 18px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .saved-btn:hover {
+
+            background: #1d4ed8;
         }
 
         .logout-btn {
@@ -272,13 +365,13 @@
             margin-bottom: 12px;
         }
 
-        .protein-card p {
+        .score {
 
-            color: #6b7280;
+            color: #2563eb;
 
-            line-height: 1.6;
+            font-weight: bold;
 
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .actions {
@@ -288,9 +381,12 @@
             gap: 12px;
 
             margin-top: 20px;
+
+            flex-wrap: wrap;
         }
 
-        .actions a {
+        .actions a,
+        .actions button {
 
             flex: 1;
 
@@ -305,6 +401,10 @@
             font-size: 14px;
 
             font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
 
             transition: 0.2s;
         }
@@ -321,6 +421,18 @@
             background: #1d4ed8;
         }
 
+        .btn-description {
+
+            background: #059669;
+
+            color: white;
+        }
+
+        .btn-description:hover {
+
+            background: #047857;
+        }
+
         .btn-download {
 
             background: #111827;
@@ -331,6 +443,26 @@
         .btn-download:hover {
 
             background: #374151;
+        }
+
+        .details {
+
+            margin-top: 20px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e5e7eb;
+
+            display: none;
+        }
+
+        .details p {
+
+            margin-bottom: 10px;
+
+            color: #4b5563;
+
+            line-height: 1.5;
         }
 
         .empty {
@@ -350,12 +482,78 @@
             backdrop-filter: blur(10px);
         }
 
+        .pagination {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-top: 40px;
+
+            flex-wrap: wrap;
+        }
+
+        .pagination a {
+
+            padding: 12px 18px;
+
+            background: white;
+
+            color: #111827;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .pagination a:hover {
+
+            background: #e5e7eb;
+        }
+
+        .pagination span {
+
+            color: white;
+
+            font-size: 14px;
+
+            padding: 12px 18px;
+        }
+
     </style>
 
 </head>
 <body>
 
 <div class="container">
+
+    {% if messages %}
+
+        <div class="toast-container">
+
+            {% for message in messages %}
+
+                <div class="toast {{ message.tags }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
 
     <div class="topbar">
 
@@ -365,19 +563,27 @@
 
         <div class="user-area">
 
-            <div class="user">
-
-                Olá,
-                {{ request.user.first_name }}
-
-            </div>
-
+            <a
+                href="/dashboard/proteins/"
+                class="saved-btn"
+            >
+                Histórico de Buscas
+            </a>
+            
             <a
                 href="/users/logout/"
                 class="logout-btn"
             >
                 Sair
             </a>
+
+            <div class="user">
+
+                Olá,
+                {{ request.user.first_name }}
+
+            </div>
+            
 
         </div>
 
@@ -392,8 +598,8 @@
         <p>
             Dashboard integrado ao
             RCSB Protein Data Bank.
-            Pesquise proteínas, estruturas moleculares
-            e exporte arquivos PDB diretamente da API oficial.
+            Pesquise proteínas, visualize detalhes
+            e exporte arquivos PDB.
         </p>
 
     </section>
@@ -441,9 +647,9 @@
                         {{ protein.title }}
                     </h3>
 
-                    <p>
-                        {{ protein.description }}
-                    </p>
+                    <div class="score">
+                        {{ protein.score }}
+                    </div>
 
                     <div class="actions">
 
@@ -455,6 +661,14 @@
                             Abrir proteína
                         </a>
 
+                        <button
+                            type="button"
+                            class="btn-description"
+                            onclick="loadDetails('{{ protein.id }}')"
+                        >
+                            Descrição
+                        </button>
+
                         <a
                             href="/export/{{ protein.id }}/"
                             class="btn-download"
@@ -464,9 +678,65 @@
 
                     </div>
 
+                    <div
+                        class="details"
+                        id="details-{{ protein.id }}"
+                    >
+
+                        Carregando...
+
+                    </div>
+
                 </div>
 
             {% endfor %}
+
+        </div>
+
+        <div class="pagination">
+
+            {% if page_obj.has_previous %}
+
+                <a
+                    href="?q={{ query }}&page=1"
+                >
+                    Primeira
+                </a>
+
+                <a
+                    href="?q={{ query }}&page={{ page_obj.previous_page_number }}"
+                >
+                    Anterior
+                </a>
+
+            {% endif %}
+
+            <span>
+
+                Página
+                {{ page_obj.number }}
+
+                de
+
+                {{ page_obj.paginator.num_pages }}
+
+            </span>
+
+            {% if page_obj.has_next %}
+
+                <a
+                    href="?q={{ query }}&page={{ page_obj.next_page_number }}"
+                >
+                    Próxima
+                </a>
+
+                <a
+                    href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}"
+                >
+                    Última
+                </a>
+
+            {% endif %}
 
         </div>
 
@@ -481,6 +751,82 @@
     {% endif %}
 
 </div>
+
+<script>
+
+async function loadDetails(proteinId) {
+
+    const detailsDiv = document.getElementById(
+        `details-${proteinId}`
+    )
+
+    if (
+        detailsDiv.style.display === "block"
+    ) {
+
+        detailsDiv.style.display = "none"
+
+        return
+    }
+
+    detailsDiv.style.display = "block"
+
+    detailsDiv.innerHTML = "Carregando..."
+
+    const response = await fetch(
+        `/protein-details/${proteinId}/`
+    )
+
+    const data = await response.json()
+
+    detailsDiv.innerHTML = `
+
+        <p>
+            <strong>Título:</strong>
+            ${data.title}
+        </p>
+
+        <p>
+            <strong>Classificação:</strong>
+            ${data.classification}
+        </p>
+
+        <p>
+            <strong>Organismo:</strong>
+            ${data.organism}
+        </p>
+
+        <p>
+            <strong>Sistema de Expressão:</strong>
+            ${data.expression_system}
+        </p>
+
+    `
+}
+
+setTimeout(() => {
+
+    const toast = document.querySelector(
+        ".toast-container"
+    )
+
+    if (toast) {
+
+        toast.style.transition =
+            "opacity 0.5s ease"
+
+        toast.style.opacity = "0"
+
+        setTimeout(() => {
+
+            toast.remove()
+
+        }, 500)
+    }
+
+}, 2000)
+
+</script>
 
 </body>
 </html>
